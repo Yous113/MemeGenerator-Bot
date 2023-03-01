@@ -1,8 +1,8 @@
 import discord
-#import requests
 from Class import meme
-from io import BytesIO
-#from PIL import Image
+#from Class import memedict
+import io
+from PIL import Image
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -35,13 +35,20 @@ async def on_message(message):
       user.Printuser()
       await message.channel.send(reply)
     
-    #if contents.startswith("!image") and i == 1:
-      #if attachments:
-        #for attachment in attachments:
-          #if attachment.filename.endswith('.jpg') or attachment.filename.endswith('.png'):
-          #  response = requests.get(attachment.url)
-      #await message.channel.send(reply)
-           
+    if contents.startswith("!image"):
+      print("!image")
+      if len(attachments) < 0:
+        await message.channel.send("Attach a picture after '!image'")
+      else:
+        picture = attachments[0]
+        filename = picture.filename
+        print(filename)
+        if filename.endswith( ".jpg") or filename.endswith(".png") or filename.endswith(".PNG"):
+          image_data = await picture.read()
+          print("got the picture")          
+        else:
+           await message.channel.send("Attach a picture after '!image'")
+               
 token = get_token()
 client.run(token)
 

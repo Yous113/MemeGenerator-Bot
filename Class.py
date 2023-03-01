@@ -7,3 +7,5 @@ class meme:
     
     def Printuser(self):
         print (self.user_id)
+
+memedict = []
