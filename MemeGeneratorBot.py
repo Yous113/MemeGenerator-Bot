@@ -45,7 +45,13 @@ async def on_message(message):
         print(filename)
         if filename.endswith( ".jpg") or filename.endswith(".png") or filename.endswith(".PNG"):
           image_data = await picture.read()
-          print("got the picture")          
+          image = Image.open(io.BytesIO(image_data))
+          print("got the picture")
+          with io.BytesIO() as image_binary:
+            image.save(image_binary, 'PNG')
+            image_binary.seek(0)
+            file = discord.File(fp=image_binary, filename='image.png')
+            await message.channel.send(file=file)          
         else:
            await message.channel.send("Attach a picture after '!image'")
                
