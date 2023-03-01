@@ -43,7 +43,7 @@ async def on_message(message):
         picture = attachments[0]
         filename = picture.filename
         print(filename)
-        if filename.endswith( ".jpg") or filename.endswith(".png") or filename.endswith(".PNG"):
+        if filename.lower().endswith((".jpg", ".png", ".jpeg")):
           image_data = await picture.read()
           image = Image.open(io.BytesIO(image_data))
           print("got the picture")
@@ -54,6 +54,8 @@ async def on_message(message):
             await message.channel.send(file=file)          
         else:
            await message.channel.send("Attach a picture after '!image'")
+
+#      await message.channel.send("Use command '!make a meme' to make your own meme")
                
 token = get_token()
 client.run(token)
