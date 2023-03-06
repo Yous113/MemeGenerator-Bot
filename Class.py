@@ -1,11 +1,12 @@
 class meme:
-    def __init__(self, user_id, image, text):
+    def __init__(self, user_id):
         self.user_id = user_id
-        self.image = image
-        self.text = text
+        self.image = 0
+        self.textup = ""
+        self.textdown = ""
         self.i = 1
     
-    def Printuser(self):
-        print (self.user_id)
+    def Printvalues(self):
+        print (self.user_id, self.image, self.textup, self.textdown)
 
-memedict = []
+memedict = {}
