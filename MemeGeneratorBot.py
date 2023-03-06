@@ -45,27 +45,29 @@ async def on_message(message):
         else:
           print("!image")
           if len(attachments) <= 0:
-            await message.channel.send("Attach a picture after '!image'")
+            await message.channel.send("Attach a picture after '!image' and then type 'text'")
           else:
             picture = attachments[0]
             filename = picture.filename
             print(filename)
           # check if the file that is attached is an image(we use funktion lower() to make sure that like PNG also gets through)
             if filename.lower().endswith((".jpg", ".png", ".jpeg")):
-              image_data = await picture.read()
-              image = Image.open(io.BytesIO(image_data))
+              memedict[user].i += 1 
+              memedict[user].image_data = await picture.read()
+              memedict[user].image = Image.open(io.BytesIO(memedict[user].image_data))
               print("got the picture")
-              with io.BytesIO() as image_binary:
-                image.save(image_binary, 'PNG')
-                output = discord.File(fp=image_binary, filename='image.png')
-                await message.channel.send(file=output)
             else:
               await message.channel.send("Attach a picture after '!image'")
       else:
         await message.channel.send("Use command '!make a meme' to make your own meme")
-    if contents.startswith("!text1"):
-      con = contents[7:]
-      print(con)
+    if contents.startswith("!text"):
+      if user in memedict:
+        if memedict[user].i == 2:
+          await message.channel.send ("Send the upper text to the meme. following '!textup'.")
+      else:
+        await message.channel.send("Use command '!make a meme' to make your own meme")
+
+      
     if contents.startswith("!text2"):
       con = contents[7:]
       print(con)
@@ -79,3 +81,8 @@ client.run(token)
 #!textup for upper text 
 #!textdown for down text
 #Bot: MEME SENT .jpg/png
+
+#with io.BytesIO() as image_binary:
+                #image.save(image_binary, 'PNG')
+                #output = discord.File(fp=image_binary, filename='image.png')
+                #await message.channel.send(file=output)
