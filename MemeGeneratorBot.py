@@ -44,7 +44,7 @@ async def on_message(message):
           await message.channel.send("Use command '!make a meme' to make your own meme")
         else:
           print("!image")
-          if len(attachments) < 0:
+          if len(attachments) <= 0:
             await message.channel.send("Attach a picture after '!image'")
           else:
             picture = attachments[0]
