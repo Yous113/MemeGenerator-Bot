@@ -38,6 +38,7 @@ async def on_message(message):
       memedict[user].Printvalues()
       await message.channel.send(reply)
     
+
     if contents.startswith("!image"):
       if user in memedict:
         if memedict[user].i != 1:
@@ -60,17 +61,67 @@ async def on_message(message):
               await message.channel.send("Attach a picture after '!image'")
       else:
         await message.channel.send("Use command '!make a meme' to make your own meme")
+    
+    
     if contents.startswith("!text"):
       if user in memedict:
         if memedict[user].i == 2:
           await message.channel.send ("Send the upper text to the meme. following '!textup'.")
+          memedict[user].i += 1
       else:
         await message.channel.send("Use command '!make a meme' to make your own meme")
-
       
-    if contents.startswith("!text2"):
-      con = contents[7:]
-      print(con)
+
+    if contents.startswith("!textup"):
+      if user in memedict:
+        if memedict[user].i == 3:
+          con = contents[7:]
+          memedict[user].textup = con
+          memedict[user].i += 1
+          await message.channel.send ("Send the bottom text to the meme, following '!textdown'.")
+        else:
+          await message.channel.send("Use command '!make a meme' to make your own meme")
+    
+
+    if contents.startswith("!textdown"):
+      if user in memedict:
+        if memedict[user].i == 4:
+          con = contents[10:]
+          memedict[user].textdown = con 
+          memedict[user].i += 1
+          await message.channel.send ("You can now request the meme by using '!meme'")
+        else:
+          await message.channel.send("Use command '!make a meme' to make your own meme")
+
+
+    if contents.startswith("!meme"):
+      if user in memedict:
+        if memedict[user].i == 5:
+        
+        else:
+          await message.channel.send("Use command '!make a meme' to make your own meme")
+
+
+
+
+    
+
+
+
+    
+      
+
+
+
+
+
+
+
+        
+
+
+        
+    
                
 token = get_token()
 client.run(token)
