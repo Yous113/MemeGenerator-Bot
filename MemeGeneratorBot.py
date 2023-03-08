@@ -76,6 +76,7 @@ async def on_message(message):
       if user in memedict:
         if memedict[user].i == 3:
           con = contents[7:]
+          print(con)
           memedict[user].textup = con
           memedict[user].i += 1
           await message.channel.send ("Send the bottom text to the meme, following '!textdown'.")
@@ -87,6 +88,7 @@ async def on_message(message):
       if user in memedict:
         if memedict[user].i == 4:
           con = contents[10:]
+          print(con)
           memedict[user].textdown = con 
           memedict[user].i += 1
           await message.channel.send ("You can now request the meme by using '!meme'")
@@ -97,7 +99,11 @@ async def on_message(message):
     if contents.startswith("!meme"):
       if user in memedict:
         if memedict[user].i == 5:
-        
+          with io.BytesIO() as image_binary:
+            memedict[user].image.save(image_binary, 'PNG')
+            image_binary.seek(0)
+            file = discord.File(fp=image_binary, filename='image.png')
+            await message.channel.send(file=file)
         else:
           await message.channel.send("Use command '!make a meme' to make your own meme")
 
