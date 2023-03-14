@@ -11,3 +11,5 @@ class meme:
         print (self.user_id, self.image, self.textup, self.textdown)
 
 memedict = {}
+memeStorage = {}
+defaultReply = "Use command '!make a meme' to make your own meme"
