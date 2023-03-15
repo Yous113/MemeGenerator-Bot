@@ -8,6 +8,7 @@ async def meme(ctx, user:discord.Member = None):
     if user == None:
         user = ctx.author
     meme = Image.open(self.image)
+    out = meme.resize((128,128))
     textup_font = ImageFont.truetype('impact/impact.ttf', 200)
     textup_text = self.textdown
     textdown_font = ImageFont.truetype('impact/impact.ttf', 200)
