@@ -28,8 +28,8 @@ async def on_message(message):
     user = message.author.id 
     
     if contents.startswith("!help"):
+      print("8")
       await message.channel.send(Storage.defaultReply)
-
        
     if contents.startswith("!make a meme"):
       reply = "Use '!image' followed by the picture"
@@ -44,9 +44,9 @@ async def on_message(message):
     if contents.startswith("!image"):
       if user in Storage.memedict:
         if Storage.memedict[user].i != 1:
+          print("1")
           await message.channel.send(Storage.defaultReply)
         else:
-          print("!image")
           if len(attachments) <= 0:
             await message.channel.send("Attach a picture after '!image' and then type 'text'")
           else:
@@ -59,21 +59,24 @@ async def on_message(message):
               Storage.memedict[user].image_data = await picture.read()
               Storage.memedict[user].image = Image.open(io.BytesIO(Storage.memedict[user].image_data))
               print("got the picture")
-              await message.channel.send("use command '!text'")
+              await message.channel.send("use command '!Settext'")
             else:
               await message.channel.send("Attach a picture after '!image'")
       else:
+        print("2")
         await message.channel.send(Storage.defaultReply)
     
     
-    if contents.startswith("!text"):
+    if contents.startswith("!Settext"):
       if user in Storage.memedict:
         if Storage.memedict[user].i == 2:
           await message.channel.send ("Send the upper text to the meme. following '!textup'.")
           Storage.memedict[user].i += 1
         else:
+          print("3")
           await message.channel.send(Storage.defaultReply)
       else:
+        print("4")
         await message.channel.send(Storage.defaultReply)
       
 
@@ -81,15 +84,11 @@ async def on_message(message):
       if user in Storage.memedict:
         if Storage.memedict[user].i == 3:
           con = contents[7:]
-          print(con)
           Storage.memedict[user].textup = con
           Storage.memedict[user].i += 1
           await message.channel.send ("Send the bottom text to the meme, following '!textdown'.")
         else:
-          await message.channel.send(Storage.defaultReply)
-      else:
-        await message.channel.send(Storage.defaultReply)
-    
+          await message.channel.send("Use command '!make a meme' to make your own meme!!!")
 
     if contents.startswith("!textdown"):
       if user in Storage.memedict:
@@ -100,6 +99,7 @@ async def on_message(message):
           Storage.memedict[user].i += 1
           await message.channel.send ("You can now request the meme by using '!meme'")
         else:
+          print("5")
           await message.channel.send(Storage.defaultReply)
 
 
@@ -113,8 +113,10 @@ async def on_message(message):
             Storage.memeStorage[user].append(Storage.memedict[user].image)
             await message.channel.send(file=file)  
         else:
+          print("6")
           await message.channel.send(Storage.defaultReply)
       else:
+        print("7")
         await message.channel.send(Storage.defaultReply)
     
     if contents.startswith("!Print my memes"):
@@ -141,8 +143,3 @@ client.run(token)
 #!textup for upper text 
 #!textdown for down text
 #Bot: MEME SENT .jpg/png
-
-#with io.BytesIO() as image_binary:
-                #image.save(image_binary, 'PNG')
-                #output = discord.File(fp=image_binary, filename='image.png')
-                #await message.channel.send(file=output)
