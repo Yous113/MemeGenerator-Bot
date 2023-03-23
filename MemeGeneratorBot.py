@@ -2,6 +2,7 @@ import discord
 import Storage
 import io
 from PIL import Image, ImageDraw, ImageFont
+import Pillow
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -106,12 +107,13 @@ async def on_message(message):
     if contents.startswith("!meme"):
       if user in Storage.memedict:
         if Storage.memedict[user].i == 5:
-          with io.BytesIO() as image_binary:
-            Storage.memedict[user].image.save(image_binary, 'PNG')
-            image_binary.seek(0)
-            file = discord.File(fp=image_binary, filename='image.png')
-            Storage.memeStorage[user].append(Storage.memedict[user].image)
-            await message.channel.send(file=file)  
+          await Pillow.meme(message, user)
+          # with io.BytesIO() as image_binary:
+          #   Storage.memedict[user].image.save(image_binary, 'PNG')
+          #   image_binary.seek(0)
+          #   file = discord.File(fp=image_binary, filename='image.png')
+          #   Storage.memeStorage[user].append(Storage.memedict[user].image)
+          #   await message.channel.send(file=file)  
         else:
           print("6")
           await message.channel.send(Storage.defaultReply)
