@@ -41,7 +41,14 @@ async def on_message(message):
           Storage.memeStorage[user] = []
       await message.channel.send(reply)
     
+    if contents.startswith("!templates"):
+      for template, file in Storage.templates:
+        await message.channel.send(template)
+    
+    #if contents.startswith("!"):
+      #con = contents[1:]
 
+    
     if contents.startswith("!image"):
       if user in Storage.memedict:
         if Storage.memedict[user].i != 1:
@@ -68,7 +75,7 @@ async def on_message(message):
         await message.channel.send(Storage.defaultReply)
     
     
-    if contents.startswith("!Settext"):
+    if contents.startswith("!settext"):
       if user in Storage.memedict:
         if Storage.memedict[user].i == 2:
           await message.channel.send ("Send the upper text to the meme. following '!textup'.")
@@ -86,8 +93,11 @@ async def on_message(message):
         if Storage.memedict[user].i == 3:
           con = contents[7:]
           Storage.memedict[user].textup = con
-          Storage.memedict[user].i += 1
-          await message.channel.send ("Send the bottom text to the meme, following '!textdown'.")
+          if len(con) <= 20:
+            Storage.memedict[user].i += 1
+            await message.channel.send("Send the bottom text to the meme, following '!textdown'.")
+          else: 
+            await message.channel.send("The max characters for textup is 20")
         else:
           await message.channel.send("Use command '!make a meme' to make your own meme!!!")
 
@@ -96,9 +106,12 @@ async def on_message(message):
         if Storage.memedict[user].i == 4:
           con = contents[10:]
           print(con)
-          Storage.memedict[user].textdown = con 
-          Storage.memedict[user].i += 1
-          await message.channel.send ("You can now request the meme by using '!meme'")
+          Storage.memedict[user].textdown = con
+          if len(con) <= 20: 
+            Storage.memedict[user].i += 1
+            await message.channel.send("You can now request the meme by using '!meme'")
+          else:
+            await message.channel.send("The max characters for textdown is 20")
         else:
           print("5")
           await message.channel.send(Storage.defaultReply)
@@ -136,6 +149,9 @@ async def on_message(message):
       else:
         await message.channel.send("You have no memes, use command '!make a meme' to make your first meme")      
                
+
+
+
 token = get_token()
 client.run(token)
 

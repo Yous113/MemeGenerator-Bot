@@ -10,6 +10,11 @@ class meme:
     def Printvalues(self):
         print (self.user_id, self.image, self.textup, self.textdown)
 
+
+templates = {"1. deadskeleton":"deadskeleton.jpg","2. mjcry":"mjcry.jpg", 
+             "3. mrbean":"mrbean.jpg", "4. politecat": "politecat.jpg", 
+             "5. sadpepe": "sadpepe.jpg", "6. stonks": "stonks.png"}
+
 memedict = {}
 memeStorage = {}
 defaultReply = "Use command '!make a meme' to make your own meme"
