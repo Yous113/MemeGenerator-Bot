@@ -11,6 +11,7 @@ async def meme(ctx, user:discord.Member = None):
     print("hej")
     user_meme = Storage.memedict[user]
     meme = Image.open(io.BytesIO(user_meme.image_data))
+    Storage.memedict[user].imagedata = io.BytesIO(user_meme.image_data)
     #meme = user_meme
     meme = meme.resize((250,150))
     text_font = ImageFont.truetype('impact/impact.ttf', 25)
@@ -26,4 +27,5 @@ async def meme(ctx, user:discord.Member = None):
 
     Storage.memedict[user].i += 1 
     Storage.memedict[user].image = Image.open("meme.png")
+    Storage.memeStorage[user].append(Storage.memedict[user].image)
     await ctx.channel.send(file = discord.File("meme.png"))

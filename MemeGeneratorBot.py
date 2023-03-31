@@ -45,52 +45,34 @@ async def on_message(message):
       for template, file in Storage.templates:
         await message.channel.send(template)
     
-    #if contents.startswith("!"):
+    if contents.startswith("!"):
+      pass
       #con = contents[1:]
 
-    
     if contents.startswith("!image"):
-      if user in Storage.memedict:
-        if Storage.memedict[user].i != 1:
-          print("1")
-          await message.channel.send(Storage.defaultReply)
+      Storage.memedict[user] = Storage.meme(user)
+      Storage.memedict[user].Printvalues()
+      if len(Storage.memeStorage) <= 0:
+        if user not in Storage.memeStorage:
+          Storage.memeStorage[user] = []
+        if len(attachments) <= 0:
+          await message.channel.send("Attach a picture after '!image' and then type 'text'")
         else:
-          if len(attachments) <= 0:
-            await message.channel.send("Attach a picture after '!image' and then type 'text'")
+          picture = attachments[0]
+          filename = picture.filename
+          print(filename)
+        # check if the file that is attached is an image(we use funktion lower() to make sure that like PNG also gets through)
+          if filename.lower().endswith((".jpg", ".png", ".jpeg")):
+            Storage.memedict[user].image_data = await picture.read()
+            Storage.memedict[user].image = Image.open(io.BytesIO(Storage.memedict[user].image_data))
+            print("got the picture")
+            await message.channel.send("Send the upper text to the meme. following '!textup'.")
           else:
-            picture = attachments[0]
-            filename = picture.filename
-            print(filename)
-          # check if the file that is attached is an image(we use funktion lower() to make sure that like PNG also gets through)
-            if filename.lower().endswith((".jpg", ".png", ".jpeg")):
-              Storage.memedict[user].i += 1 
-              Storage.memedict[user].image_data = await picture.read()
-              Storage.memedict[user].image = Image.open(io.BytesIO(Storage.memedict[user].image_data))
-              print("got the picture")
-              await message.channel.send("use command '!Settext'")
-            else:
-              await message.channel.send("Attach a picture after '!image'")
-      else:
-        print("2")
-        await message.channel.send(Storage.defaultReply)
-    
-    
-    if contents.startswith("!settext"):
-      if user in Storage.memedict:
-        if Storage.memedict[user].i == 2:
-          await message.channel.send ("Send the upper text to the meme. following '!textup'.")
-          Storage.memedict[user].i += 1
-        else:
-          print("3")
-          await message.channel.send(Storage.defaultReply)
-      else:
-        print("4")
-        await message.channel.send(Storage.defaultReply)
-      
+            await message.channel.send("Attach a picture after '!image'")
 
     if contents.startswith("!textup"):
       if user in Storage.memedict:
-        if Storage.memedict[user].i == 3:
+        if Storage.memedict[user].i == 0:
           con = contents[7:]
           Storage.memedict[user].textup = con
           if len(con) <= 20:
@@ -103,7 +85,7 @@ async def on_message(message):
 
     if contents.startswith("!textdown"):
       if user in Storage.memedict:
-        if Storage.memedict[user].i == 4:
+        if Storage.memedict[user].i == 1:
           con = contents[10:]
           print(con)
           Storage.memedict[user].textdown = con
@@ -119,8 +101,9 @@ async def on_message(message):
 
     if contents.startswith("!meme"):
       if user in Storage.memedict:
-        if Storage.memedict[user].i == 5:
+        if Storage.memedict[user].i == 2:
           await Pillow.meme(message, user)
+          print(Storage.memeStorage)
           # with io.BytesIO() as image_binary:
           #   Storage.memedict[user].image.save(image_binary, 'PNG')
           #   image_binary.seek(0)

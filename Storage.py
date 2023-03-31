@@ -5,7 +5,7 @@ class meme:
         self.image_data = 0
         self.textup = ""
         self.textdown = ""
-        self.i = 1
+        self.i = 0
     
     def Printvalues(self):
         print (self.user_id, self.image, self.textup, self.textdown)
