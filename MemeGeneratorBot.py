@@ -46,8 +46,11 @@ async def on_message(message):
         await message.channel.send(template)
     
     if contents.startswith("!"):
-      pass
-      #con = contents[1:]
+      con = contents[1:]
+      for key in dict.keys(Storage.templates):
+        key == con
+        for con in Storage.templates:
+          await message.channel.send(dict.values(Storage.templates))
 
     if contents.startswith("!image"):
       Storage.memedict[user] = Storage.meme(user)
