@@ -1,3 +1,7 @@
+import os
+
+TEMPLATES_FOLDER = os.path.abspath('Templates')
+
 class meme:
     def __init__(self, user_id):
         self.user_id = user_id
@@ -15,6 +19,15 @@ templates = {"1. deadskeleton":"deadskeleton.jpg","2. mjcry":"mjcry.jpg",
              "3. mrbean":"mrbean.jpg", "4. politecat": "politecat.jpg", 
              "5. sadpepe": "sadpepe.jpg", "6. stonks": "stonks.png"}
 
+Templates = {
+        "1. deadskeleton": os.path.join(TEMPLATES_FOLDER, "deadskeleton.jpg"),
+        "2. mjcry": os.path.join(TEMPLATES_FOLDER, "mjcry.jpg"),
+        "3. mrbean": os.path.join(TEMPLATES_FOLDER, "mrbean.jpg"),
+        "4. politecat": os.path.join(TEMPLATES_FOLDER, "politecat.jpg"),
+        "5. sadpepe": os.path.join(TEMPLATES_FOLDER, "sadpepe.jpg"),
+        "6. stonks": os.path.join(TEMPLATES_FOLDER, "stonks.png")}
+
 memedict = {}
 memeStorage = {}
 defaultReply = "Use command '!make a meme' to make your own meme"
+

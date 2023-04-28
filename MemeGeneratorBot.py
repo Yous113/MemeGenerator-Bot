@@ -1,6 +1,7 @@
 import discord
 import Storage
 import io
+import os
 from PIL import Image, ImageDraw, ImageFont
 import Pillow
 
@@ -42,16 +43,20 @@ async def on_message(message):
       await message.channel.send(reply)
     
     if contents.startswith("!templates"):
-      for template, file in Storage.templates:
+      for template in Storage.templates:
         await message.channel.send(template)
-    
-    """ if contents.startswith("!"):
-      con = contents[1:]
-      for key in dict.keys(Storage.templates):
-        key == con
-        for con in Storage.templates:
-          await message.channel.send(dict.values(Storage.templates)) """
 
+    if contents.startswith("!show"):
+    # Extract the template name from the command
+      template_name = contents[6:]  
+      if template_name in Storage.Templates:
+        with open(Storage.templates[template_name], 'rb') as fp:
+          image = discord.File(fp)
+          await message.channel.send(file=image)
+      if template_name not in Storage.templates:
+        await message.channel.send(f"Sorry, the template '{template_name}' does not exist.")
+  
+    
     if contents.startswith("!image"):
       Storage.memedict[user] = Storage.meme(user)
       if len(Storage.memeStorage) <= 0:
@@ -127,6 +132,7 @@ async def on_message(message):
                
 token = get_token()
 client.run(token)
+TEMPLATES_FOLDER = os.path.abspath('Templates')
 
 # !make a meme
 # Bot: !image efterfulgt med billede 
