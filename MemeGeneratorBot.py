@@ -1,7 +1,6 @@
 import discord
 import Storage
 import io
-import os
 from PIL import Image, ImageDraw, ImageFont
 import Pillow
 
@@ -32,36 +31,34 @@ async def on_message(message):
     if contents.startswith("!help"):
       print("8")
       await message.channel.send(Storage.defaultReply)
-       
-    if contents.startswith("!make a meme"):
-      reply = "Use '!image' followed by the picture"
-      Storage.memedict[user] = Storage.meme(user)
-      Storage.memedict[user].Printvalues()
-      if len(Storage.memeStorage) <= 0:
-        if user not in Storage.memeStorage:
-          Storage.memeStorage[user] = []
-      await message.channel.send(reply)
     
     if contents.startswith("!templates"):
-      for template in Storage.templates:
+      for template in Storage.Templates:
         await message.channel.send(template)
 
-    if contents.startswith("!show"):
+    if contents.startswith("!choose"):
+      Storage.memedict[user] = Storage.meme(user)
+      if user not in Storage.memeStorage:
+        Storage.memeStorage[user] = []
     # Extract the template name from the command
-      template_name = contents[6:]  
+      template_name = contents[8:]  
       if template_name in Storage.Templates:
-        with open(Storage.templates[template_name], 'rb') as fp:
-          image = discord.File(fp)
-          await message.channel.send(file=image)
-      if template_name not in Storage.templates:
-        await message.channel.send(f"Sorry, the template '{template_name}' does not exist.")
-  
-    
+        # Retrieve the file path for the template name
+        file_path = Storage.Templates[template_name]
+        with open(file_path, 'rb') as picture:
+          Storage.memedict[user].image_data = picture.read()
+          Storage.memedict[user].image = Image.open(io.BytesIO(Storage.memedict[user].image_data))
+          Storage.memedict[user].Printvalues()
+        print("got the picture")
+        await message.channel.send("Send the upper text to the meme. following '!textup'.")
+      else:
+        await message.channel.send(f"template name '{template_name}' not found")
+      
+
     if contents.startswith("!image"):
       Storage.memedict[user] = Storage.meme(user)
-      if len(Storage.memeStorage) <= 0:
-        if user not in Storage.memeStorage:
-          Storage.memeStorage[user] = []
+      if user not in Storage.memeStorage:
+        Storage.memeStorage[user] = []
       if len(attachments) <= 0:
         await message.channel.send("Attach a picture after '!image' and then type 'text'")
       else:
@@ -112,14 +109,6 @@ async def on_message(message):
         if Storage.memedict[user].i == 2:
           await Pillow.meme(message, user)
           del Storage.memedict[user]
-          print(Storage.memedict)
-          print(Storage.memeStorage)
-          # with io.BytesIO() as image_binary:
-          #   Storage.memedict[user].image.save(image_binary, 'PNG')
-          #   image_binary.seek(0)
-          #   file = discord.File(fp=image_binary, filename='image.png')
-          #   Storage.memeStorage[user].append(Storage.memedict[user].image)
-          #   await message.channel.send(file=file)  
         else:
           print("6")
           await message.channel.send(Storage.defaultReply)
@@ -132,7 +121,6 @@ async def on_message(message):
                
 token = get_token()
 client.run(token)
-TEMPLATES_FOLDER = os.path.abspath('Templates')
 
 # !make a meme
 # Bot: !image efterfulgt med billede 
