@@ -21,26 +21,32 @@ def get_token():
 async def on_ready():
     print("Connected!")
 
-
+# on_message kører hver gang der bliver sendt en besked.
 @client.event
 async def on_message(message):
-    contents = message.content
-    attachments = message.attachments
+    # beskedens indhold
+    contents = message.content 
+    # Filerne beskderne bliver sendt med
+    attachments = message.attachments 
+    # brugeren som sendte beskeden
     user = message.author.id 
     
     if contents.startswith("!help"):
       print("8")
-      await message.channel.send(Storage.defaultReply)
+      await message.channel.send("''''''")
     
+
     if contents.startswith("!templates"):
+      # For hvert template i dictionaryen templates
       for template in Storage.Templates:
         await message.channel.send(template)
 
     if contents.startswith("!choose"):
+      # Hvis 
       Storage.memedict[user] = Storage.meme(user)
       if user not in Storage.memeStorage:
         Storage.memeStorage[user] = []
-    # Extract the template name from the command
+    #
       template_name = contents[8:]  
       if template_name in Storage.Templates:
         # Retrieve the file path for the template name
@@ -65,7 +71,7 @@ async def on_message(message):
         picture = attachments[0]
         filename = picture.filename
         print(filename)
-      # check if the file that is attached is an image(we use funktion lower() to make sure that like PNG also gets through)
+      # Tjekker hvis filen der er blevet sat på beskeden er et billede
         if filename.lower().endswith((".jpg", ".png", ".jpeg")):
           Storage.memedict[user].image_data = await picture.read()
           Storage.memedict[user].image = Image.open(io.BytesIO(Storage.memedict[user].image_data))
@@ -80,6 +86,7 @@ async def on_message(message):
         if Storage.memedict[user].i == 0:
           con = contents[7:]
           Storage.memedict[user].textup = con
+          # vi sætter et maksimum antal ord så teksten ikke går ud over billedet
           if len(con) <= 20:
             Storage.memedict[user].i += 1
             await message.channel.send("Send the bottom text to the meme, following '!textdown'.")
