@@ -20,6 +20,9 @@ Templates = {
         "sadpepe": "Templates/sadpepe.jpg",
         "stonks": "Templates/stonks.png"}
 
+help_message = ""
+
+
 memedict = {}
 memeStorage = {}
 defaultReply = "Use command '!make a meme' to make your own meme"
