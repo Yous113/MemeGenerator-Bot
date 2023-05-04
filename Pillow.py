@@ -5,10 +5,10 @@ from discord.ext import commands
 from PIL import Image, ImageDraw, ImageFont
 import Storage
 
+
 async def meme(ctx, user: discord.Member = None):
     if user is None:
         user = ctx.author
-
     user_meme = Storage.memedict[user]
     meme = Image.open(io.BytesIO(user_meme.image_data))
     Storage.memedict[user].image_data = io.BytesIO(user_meme.image_data)
@@ -29,7 +29,7 @@ async def meme(ctx, user: discord.Member = None):
     meme.save(image_binary, format='PNG')
     image_binary.seek(0)
 
-    # Add the meme to the user's meme storage list
+    # hvis brugeren ikke allerede er en del af dictionarien laver den en key med brugerens id
     if user not in Storage.memeStorage:
         Storage.memeStorage[user] = []
 
@@ -37,19 +37,20 @@ async def meme(ctx, user: discord.Member = None):
     Storage.memedict[user].image = Image.open("meme.png")
     Storage.memedict[user].i = 0
 
-    # Send the meme as a file attachment
+    # Sender memen
     await ctx.channel.send(file=discord.File(image_binary, filename='meme.png'))
 
+# Sender alle de memes brugeren har lavet
 async def send_user_memes(ctx, user: discord.member = None):
     if user is None:
         user = ctx.author
     
-    # Check if user has memes
+    # Tjekker hvis brugeren har lavet en meme
     if user not in Storage.memeStorage:
         await ctx.channel.send("You have no memes")
         return
     
-    # Send users memes
+    # Send bugerens memes
     for meme in Storage.memeStorage[user]:
         image_bytes = io.BytesIO()
         with Image.open(meme) as img:
