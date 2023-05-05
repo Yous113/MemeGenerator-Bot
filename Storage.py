@@ -20,10 +20,10 @@ Templates = {
         "sadpepe": "Templates/sadpepe.jpg",
         "stonks": "Templates/stonks.png"}
 
-help_message = ""
+help_message = "```This bot can help you generate your own memes.\nYou can choose between these two commands to make your meme:\n\n'!image' - attach a picture you would like to use for your meme\n'!template' - Shows meme templates\n```"
 
 
 memedict = {}
 memeStorage = {}
-defaultReply = "Use command '!make a meme' to make your own meme"
+defaultReply = "Use command '!image' to make your own meme"
 

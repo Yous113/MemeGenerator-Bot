@@ -32,15 +32,17 @@ async def on_message(message):
     user = message.author.id 
     
     if contents.startswith("!help"):
-      await message.channel.send("''''''")
+      await message.channel.send(Storage.help_message)
     
 
     if contents.startswith("!templates"):
       # For hvert template i dictionaryen templates
       for template in Storage.Templates:
         await message.channel.send(template)
+      await message.channel.send("You can use the command, '!choose', to choose a template")
 
     if contents.startswith("!choose"):
+      # Her innitieres et objekt
       Storage.memedict[user] = Storage.meme(user)
       if user not in Storage.memeStorage:
         Storage.memeStorage[user] = []
@@ -54,7 +56,7 @@ async def on_message(message):
           Storage.memedict[user].Printvalues()
         await message.channel.send("Send the upper text to the meme. following '!textup'.")
       else:
-        await message.channel.send(f"template name '{template_name}' not found")
+        await message.channel.send(f"Template name '{template_name}' not found")
       
 
     if contents.startswith("!image"):
@@ -87,7 +89,7 @@ async def on_message(message):
           else: 
             await message.channel.send("The max characters for textup is 20")
         else:
-          await message.channel.send("Use command '!image' to make your own meme")
+          await message.channel.send(Storage.defaultReply)
 
     if contents.startswith("!textdown"):
       if user in Storage.memedict:
@@ -118,10 +120,3 @@ async def on_message(message):
                
 token = get_token()
 client.run(token)
-
-# !make a meme
-# Bot: !image efterfulgt med billede 
-#!image (.jpg/.png)
-#!textup for upper text 
-#!textdown for down text
-#Bot: MEME SENT .jpg/png
