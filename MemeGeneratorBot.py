@@ -46,7 +46,6 @@ async def on_message(message):
       Storage.memedict[user] = Storage.meme(user)
       if user not in Storage.memeStorage:
         Storage.memeStorage[user] = []
-    #
       template_name = contents[8:]  
       if template_name in Storage.Templates:
         # Retrieve the file path for the template name
@@ -55,7 +54,6 @@ async def on_message(message):
           Storage.memedict[user].image_data = picture.read()
           Storage.memedict[user].image = Image.open(io.BytesIO(Storage.memedict[user].image_data))
           Storage.memedict[user].Printvalues()
-        print("got the picture")
         await message.channel.send("Send the upper text to the meme. following '!textup'.")
       else:
         await message.channel.send(f"template name '{template_name}' not found")
@@ -76,7 +74,6 @@ async def on_message(message):
           Storage.memedict[user].image_data = await picture.read()
           Storage.memedict[user].image = Image.open(io.BytesIO(Storage.memedict[user].image_data))
           Storage.memedict[user].Printvalues()
-          print("got the picture")
           await message.channel.send("Send the upper text to the meme. following '!textup'.")
         else:
           await message.channel.send("Attach a picture after '!image'")
@@ -107,7 +104,6 @@ async def on_message(message):
           else:
             await message.channel.send("The max characters for textdown is 20")
         else:
-          print("5")
           await message.channel.send(Storage.defaultReply)
 
 
