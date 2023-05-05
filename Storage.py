@@ -9,7 +9,7 @@ class meme:
         self.i = 0
     
     def Printvalues(self):
-        print (self.user_id, self.image, self.textup, self.textdown)
+        print (self.user_id, self.image, self.textup, self.textdown, self.i)
 
 
 Templates = {

@@ -32,7 +32,6 @@ async def on_message(message):
     user = message.author.id 
     
     if contents.startswith("!help"):
-      print("8")
       await message.channel.send("''''''")
     
 
@@ -42,7 +41,6 @@ async def on_message(message):
         await message.channel.send(template)
 
     if contents.startswith("!choose"):
-      # Hvis 
       Storage.memedict[user] = Storage.meme(user)
       if user not in Storage.memeStorage:
         Storage.memeStorage[user] = []
@@ -68,7 +66,6 @@ async def on_message(message):
       else:
         picture = attachments[0]
         filename = picture.filename
-        print(filename)
       # Tjekker hvis filen der er blevet sat på beskeden er et billede
         if filename.lower().endswith((".jpg", ".png", ".jpeg")):
           Storage.memedict[user].image_data = await picture.read()
@@ -90,13 +87,12 @@ async def on_message(message):
           else: 
             await message.channel.send("The max characters for textup is 20")
         else:
-          await message.channel.send("Use command '!make a meme' to make your own meme!!!")
+          await message.channel.send("Use command '!image' to make your own meme")
 
     if contents.startswith("!textdown"):
       if user in Storage.memedict:
         if Storage.memedict[user].i == 1:
           con = contents[10:]
-          print(con)
           Storage.memedict[user].textdown = con
           if len(con) <= 20: 
             Storage.memedict[user].i += 1
@@ -113,10 +109,8 @@ async def on_message(message):
           await Pillow.meme(message, user)
           del Storage.memedict[user]
         else:
-          print("6")
           await message.channel.send(Storage.defaultReply)
       else:
-        print("7")
         await message.channel.send(Storage.defaultReply)
     
     if contents.startswith("!Print my memes"):

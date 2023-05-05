@@ -50,7 +50,7 @@ async def send_user_memes(ctx, user: discord.member = None):
         await ctx.channel.send("You have no memes")
         return
     
-    # Send bugerens memes
+    # Sender brugerens memes
     for meme in Storage.memeStorage[user]:
         image_bytes = io.BytesIO()
         with Image.open(meme) as img:
